@@ -8,8 +8,8 @@ public class PlayerMovment : MonoBehaviour
     public int maxJumps = 2;
     private int jumps;
 
-
-
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
     public Rigidbody2D rigidbody2D;
     private Vector3 velocity = Vector3.zero;
 
@@ -25,6 +25,14 @@ public class PlayerMovment : MonoBehaviour
         float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
 
         MovePlayer(horizontalMovement);
+
+        /**ANIMATION**/
+
+        /** Flip direction**/
+        Flip(rigidbody2D.velocity.x);
+
+        /**calc speed x movement**/
+        animator.SetFloat("Speed", Mathf.Abs(rigidbody2D.velocity.x));
     }
 
     private void MovePlayer(float _horizontalMovement)
@@ -50,6 +58,17 @@ public class PlayerMovment : MonoBehaviour
         if (collider.gameObject.tag == "Ground")
         {
             jumps = maxJumps;
+        }
+    }
+
+    void Flip(float velocity)
+    {
+        if(velocity > 0.1f)
+        {
+            spriteRenderer.flipX = false;
+        }else if(velocity < -0.1f)
+        {
+            spriteRenderer.flipX = true;
         }
     }
 }
