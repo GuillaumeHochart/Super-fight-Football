@@ -19,8 +19,8 @@ public class Break_Component : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-
-        if (collision.gameObject.tag == "Breakable" && break_submit)
+        BreakableElement b=collision.gameObject.GetComponent<BreakableElement>();
+        if (b != null && break_submit)
         {
             BreakableElement breakableElement = collision.gameObject.GetComponent<BreakableElement>();
 
