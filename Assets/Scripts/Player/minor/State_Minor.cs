@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class State_Minor
 {
-    private bool isDisposeObject = false;
+    private bool isDisposeObject = true;
 
     public bool IsDisposeObject { get => isDisposeObject; set => isDisposeObject = value; }
 }

@@ -8,11 +8,13 @@ public class Minor : Player
 
     public Minor_Movment minor_Movment;
 
-    public State_Minor state_minor;
+    private State_Minor state_minor;
 
     public Minor_Break_Component minor_Break_Component;
 
     public Minor_dispose_object minor_Dispose_Object;
+
+    public State_Minor State_minor { get => state_minor; set => state_minor = value; }
 
     public Minor()
     {
@@ -28,4 +30,5 @@ public class Minor : Player
     {
         return minor_Movment;
     }
+
 }
