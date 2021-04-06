@@ -1,3 +1,6 @@
+using animation.minor;
+using exception;
+using playerElement.util;
 using UnityEngine;
 
 namespace playerElement.minor.action
@@ -9,12 +12,10 @@ namespace playerElement.minor.action
 
         public int maxJumps = 2;
         private int _jumps;
-
-        public Animator animator;
-        public SpriteRenderer spriteRenderer;
+        
         public new Rigidbody2D rigidbody2D;
         private Vector3 _velocity = Vector3.zero;
-        private static readonly int Speed = Animator.StringToHash("Speed");
+
 
         private void Update()
         {
@@ -29,11 +30,8 @@ namespace playerElement.minor.action
             float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
 
             MovePlayer(horizontalMovement);
-            
-            Flip(rigidbody2D.velocity.x);
-
-            animator.SetFloat(Speed, Mathf.Abs(rigidbody2D.velocity.x));
         }
+
 
         private void MovePlayer(float horizontalMovement)
         {
@@ -60,17 +58,6 @@ namespace playerElement.minor.action
             if (collider.gameObject.CompareTag("Ground"))
             {
                 _jumps = maxJumps;
-            }
-        }
-
-        private void Flip(float velocity)
-        {
-            if(velocity > 0.1f)
-            {
-                spriteRenderer.flipX = false;
-            }else if(velocity < -0.1f)
-            {
-                spriteRenderer.flipX = true;
             }
         }
     }

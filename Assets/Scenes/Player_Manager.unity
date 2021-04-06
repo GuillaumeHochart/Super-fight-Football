@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 259747900}
   - component: {fileID: 259747902}
   - component: {fileID: 259747901}
+  - component: {fileID: 259747903}
   m_Layer: 0
   m_Name: Minor
   m_TagString: Untagged
@@ -212,11 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348a35fd979ce4a45b1754fd3790f767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 250
+  moveSpeed: 500
   jumpForce: 5
   maxJumps: 2
-  animator: {fileID: 259747899}
-  spriteRenderer: {fileID: 259747892}
   rigidbody2D: {fileID: 259747896}
 --- !u!4 &259747894
 Transform:
@@ -357,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 8134903333571388221, guid: 810f2d2226c66b447b6ee47c99d68161, type: 3}
   lerp: 2
+  forceShoot: 20
 --- !u!114 &259747902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +370,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minor: {fileID: 259747898}
+--- !u!114 &259747903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259747891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4e485d05c64931acc2fbc36572558c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 259747899}
+  spriteRenderer: {fileID: 259747892}
+  rigidbody2D: {fileID: 259747896}
 --- !u!1 &298631141
 GameObject:
   m_ObjectHideFlags: 0

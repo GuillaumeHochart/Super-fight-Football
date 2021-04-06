@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Immediate Window">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/Element/BreakableElement.cs">
           <value>
             <set />
@@ -43,6 +48,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/animation/minor/MinorAnimation.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/camera/CameraFollow.cs">
           <value>
             <set />
@@ -54,6 +64,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/componentElement/BreakableElement.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/exception/BussinesException.cs">
           <value>
             <set />
           </value>
@@ -123,6 +138,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/minor/action/MinorDisposeObject.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/minor/action/MinorMovement.cs">
           <value>
             <set />
@@ -154,6 +174,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/singleton/PlayerManager.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/util/ClickUtils.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/util/ClickUtils.cs">
           <value>
             <set />
           </value>
