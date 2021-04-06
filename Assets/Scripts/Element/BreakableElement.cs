@@ -2,33 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakableElement : MonoBehaviour
+namespace Element
 {
-    public int life = 1;
-
-    public void Dammage(int dammage)
+    public class BreakableElement : MonoBehaviour
     {
-        Debug.Log("Life actuel : "+life);
-        Debug.Log("Dammage : "+dammage);
-       
-        life = life - dammage;
-        if (CheckIsDeath())
+        public int life = 1;
+
+        public void RemoveLifeOnBreakableElement(int damage)
         {
-            Debug.Log(gameObject.name+" is death");
+            Debug.Log("Life actuel : " + life);
+            Debug.Log("Damage : " + damage);
+
+            life -= damage;
+            if (!CheckIsDeath()) return;
+            Debug.Log(gameObject.name + " is death");
 
             gameObject.SetActive(false);
         }
-    }
-    private bool CheckIsDeath()
-    {
-        if(life <= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
+        private bool CheckIsDeath()
+        {
+            return life <= 0;
+        }
+    }
 }

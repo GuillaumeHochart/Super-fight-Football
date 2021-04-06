@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Load_Scene : MonoBehaviour
+public class LoadScene : MonoBehaviour
 {
-    public string name_scene;
+    public string nameScene;
     // Start is called before the first frame update
     void Start()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SceneManager.LoadScene(name_scene);
+            SceneManager.LoadScene(nameScene);
         }
     }
 

@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Element;
 
-public class Bar : BreakableElement
+namespace geometric.bar
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Bar : BreakableElement
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

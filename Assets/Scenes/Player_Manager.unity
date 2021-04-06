@@ -140,8 +140,8 @@ GameObject:
   - component: {fileID: 259747898}
   - component: {fileID: 259747893}
   - component: {fileID: 259747900}
-  - component: {fileID: 259747901}
   - component: {fileID: 259747902}
+  - component: {fileID: 259747901}
   m_Layer: 0
   m_Name: Minor
   m_TagString: Untagged
@@ -309,9 +309,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1
   numbStockElement: 10
-  minor_Movment: {fileID: 259747893}
-  minor_Break_Component: {fileID: 259747900}
-  minor_Dispose_Object: {fileID: 259747901}
+  minorMovement: {fileID: 259747893}
+  minorBreakComponent: {fileID: 259747900}
+  minorDisposeObject: {fileID: 259747901}
 --- !u!95 &259747899
 Animator:
   serializedVersion: 3

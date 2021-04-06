@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Element;
 
-public class Square : BreakableElement
+namespace geometric.square
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Square : BreakableElement
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
