@@ -1,45 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Minor_dispose_object : MonoBehaviour
 {
-    public GameObject square;
-
     bool isInstantiate = false;
     private GameObject newInstantiate = null;
 
+    public GameObject square;
 
-    public GameObject bar;
+    public float lerp = 2;
     void Update()
     {
-        Vector3 position = transform.position;
-
-    
-        Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 position = transform.position;
 
 
+        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (mouse.x > position.x)
-        {
-            instanceKeyDown(new Vector3(position.x + 2, mouse.y), KeyCode.RightArrow);
-        }
-        if (mouse.x < position.x)
-        {
-            instanceKeyDown(new Vector3(position.x - 2, mouse.y), KeyCode.LeftArrow);
-        }
+
+        Vector2 newPosition = LerpByDistance(position, mouse, lerp);
+
+
+        instanceKeyDown(newPosition);
+
 
         // transform
-        if (Input.GetMouseButton(1)) 
+        if (Input.GetMouseButton(1))
         {
             changeStateMinor(false);
-            if (mouse.x < position.x)
+            if (newInstantiate != null)
             {
-                newInstantiate.transform.position = new Vector3(position.x - 2, mouse.y);
-            }
-            if (mouse.x > position.x)
-            {
-                newInstantiate.transform.position = new Vector3(position.x + 2, mouse.y);
+                newInstantiate.transform.position = newPosition;
             }
         }
         if (Input.GetMouseButtonUp(1))
@@ -49,27 +41,40 @@ public class Minor_dispose_object : MonoBehaviour
 
 
     }
-    private void instanceKeyDown(Vector3 newPosition, KeyCode keyVerification)
+    public Vector2 LerpByDistance(Vector2 playerPosition, Vector2 mousePosition, float x)
     {
-        if ((Input.GetKey(keyVerification) || Input.GetMouseButtonDown(1)) && !isInstantiate)
+        Vector2 BA = mousePosition - playerPosition;
+        Vector2 BANormalize = Vector3.Normalize(BA);
+        Vector2 intensité = x * BANormalize;
+
+        Vector2 P = intensité + playerPosition;
+        return P;
+    }
+
+    private void instanceKeyDown(Vector3 newPosition)
+    {
+        if (Input.GetMouseButtonDown(1) && !isInstantiate)
         {
+            square.GetComponent<BoxCollider2D>().isTrigger = true;
             square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
             newInstantiate = Instantiate(square, newPosition, Quaternion.identity);
             isInstantiate = true;
         }
-        else if ((Input.GetKeyUp(keyVerification) || Input.GetMouseButtonUp(1)) && isInstantiate)
+        else if (Input.GetMouseButtonUp(1) && isInstantiate)
         {
             Destroy(newInstantiate);
             isInstantiate = false;
         }
-        else if ((Input.GetKeyDown(KeyCode.RightControl) || Input.GetMouseButtonUp(0)) && isInstantiate == true)
+        else if (Input.GetMouseButtonUp(0) && isInstantiate == true)
         {
             Destroy(newInstantiate);
+            square.GetComponent<BoxCollider2D>().isTrigger = false;
             square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-            newInstantiate = Instantiate(square, newPosition, Quaternion.identity);
+            GameObject instantiate=Instantiate(square, newPosition, Quaternion.identity);
 
             isInstantiate = false;
             newInstantiate = null;
+
         }
 
     }
@@ -77,6 +82,6 @@ public class Minor_dispose_object : MonoBehaviour
     {
         Minor minor = GetComponent<Minor>();
 
-        minor.State_minor.IsDisposeObject = state; 
+        minor.State_minor.IsDisposeObject = state;
     }
 }
