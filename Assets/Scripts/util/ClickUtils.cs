@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace playerElement.util
 {
-    public class ClickUtils
+    public static class ClickUtils
     {
         public static bool ClickIsPlayerRight(Vector3 playerPosition , Vector3 mousePosition)
         {

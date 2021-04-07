@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="/Immediate Window">
           <value>
             <set />
@@ -184,6 +189,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/util/ClickUtils.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/util/VectorUtils.cs">
           <value>
             <set />
           </value>

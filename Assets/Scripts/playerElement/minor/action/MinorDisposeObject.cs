@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using exception;
 using JetBrains.Annotations;
+using playerElement.util;
 using UnityEngine;
 
 namespace playerElement.minor.action
@@ -14,79 +17,107 @@ namespace playerElement.minor.action
         public float lerp = 2;
 
         public int forceShoot = 250;
+
+        public int forceInvokRock = 10;
         
         private void Update()
         {
             Vector2 position = transform.position;
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+            var objectivePosition = VectorUtils.LerpByDistance(position, mouse, lerp);
+            Debug.Log("LERP"+objectivePosition);
 
-            Vector2 newPosition = LerpByDistance(position, mouse, lerp);
+            InstanceKeyDown(GetGroundPosition(objectivePosition), mouse);
+            TransformGameObjectPosition(objectivePosition);
+            UpdateMinorState();
+        }
 
+        private void TransformGameObjectPosition(Vector2 objectivePosition)
+        {
+            Minor minor = GetComponent<Minor>();
 
-            InstanceKeyDown(newPosition,mouse);
-
-
-            // transform
-            if (Input.GetMouseButton(1))
+            if (_isInstantiate)
             {
-                Debug.Log(" MOUSE x : "+mouse.x+" y : "+mouse.y);
-                Debug.Log(" OBJECT x : "+newPosition.x+" y : "+newPosition.y);
+                Debug.Log("object"+_newInstantiate.transform.position);
+                Debug.Log("objective"+objectivePosition);
 
-                ChangeStateMinor(false);
-                if (_newInstantiate != null)
-                {
-                    _newInstantiate.transform.position = newPosition;
-                }
             }
+            
+            if (!Input.GetMouseButton(1)) return;
+
+            ChangeStateMinor(false);
+            if (_newInstantiate == null) return;
+
+            Vector2 vectorRef = Vector2.zero;
+
+            if (_newInstantiate.transform.position.y > objectivePosition.y)
+            {
+                minor.StateMinor.isLaunchable = true;
+            }
+
+            if (!minor.StateMinor.isLaunchable)
+            {
+                _newInstantiate.transform.position =
+                    new Vector2(_newInstantiate.transform.position.x,
+                        _newInstantiate.transform.position.y + forceInvokRock * Time.deltaTime);
+            }
+            else
+            {
+                _newInstantiate.transform.position = objectivePosition;
+            }
+        }
+
+        private Vector2 GetGroundPosition(Vector2 objectivePosition)
+        {
+            var down = new Vector2(0, Math.Abs(objectivePosition.y * 100) * -1);
+            Debug.DrawRay(objectivePosition, down, Color.red);
+            var hit = Physics2D.Raycast(objectivePosition, down);
+
+            return hit.point;
+        }
+
+        private void UpdateMinorState()
+        {
             if (Input.GetMouseButtonUp(1))
             {
                 ChangeStateMinor(true);
             }
-
-
         }
 
-        private Vector2 LerpByDistance(Vector2 playerPosition, Vector2 mousePosition, float x)
-        {
-            Vector2 ba = mousePosition - playerPosition;
-            Vector2 baNormalize = Vector3.Normalize(ba);
-            Vector2 force = x * baNormalize;
-
-            Vector2 p = force + playerPosition;
-            return p;
-        }
-
-        private void InstanceKeyDown(Vector3 newPosition,Vector3 mousePosition)
+        private void InstanceKeyDown(Vector3 newPosition, Vector3 mousePosition)
         {
             if (mousePosition == null) throw new BussinesException("mouse position is null");
 
             if (Input.GetMouseButtonDown(1) && !_isInstantiate)
             {
+                Minor minor = GetComponent<Minor>();
                 square.GetComponent<BoxCollider2D>().isTrigger = true;
                 square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
-                _newInstantiate = Instantiate(square, newPosition, Quaternion.identity);
+                _newInstantiate = Instantiate(square, new Vector2(newPosition.x,newPosition.y -2), Quaternion.identity);
                 _isInstantiate = true;
+                minor.StateMinor.isLaunchable = false;
             }
             else if (Input.GetMouseButtonUp(1) && _isInstantiate)
             {
+                Minor minor = GetComponent<Minor>();
                 Destroy(_newInstantiate);
                 _isInstantiate = false;
+                minor.StateMinor.isLaunchable = false;
             }
             else if (Input.GetMouseButtonUp(0) && _isInstantiate == true)
             {
                 Destroy(_newInstantiate);
                 square.GetComponent<BoxCollider2D>().isTrigger = false;
                 square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                GameObject instantiate=Instantiate(square, newPosition, Quaternion.identity);
+                GameObject instantiate = Instantiate(square, newPosition, Quaternion.identity);
 
                 _isInstantiate = false;
                 _newInstantiate = null;
-                Smash(instantiate,mousePosition);
-
+                LaunchObject(instantiate, mousePosition);
             }
-
         }
+
         private void ChangeStateMinor(bool state)
         {
             Minor minor = GetComponent<Minor>();
@@ -94,24 +125,15 @@ namespace playerElement.minor.action
             minor.StateMinor.IsDisposeObject = state;
         }
 
-        private void Smash(GameObject objectSmash,[NotNull] Vector3 mousePosition)
+        private void LaunchObject(GameObject objectSmash, [NotNull] Vector3 mousePosition)
         {
-
-
-            Vector3 velocityRef = Vector3.zero;
-
             var rObject = objectSmash.GetComponent<Rigidbody2D>();
             if (rObject == null) throw new BussinesException("Object has not rigidbody");
-          
+
             Vector2 originalPosition = rObject.transform.position;
-            
-            float horizontalMovement = mousePosition.x * forceShoot * Time.deltaTime;
-            float verticalMovement = mousePosition.y * forceShoot * Time.deltaTime;
 
-            Vector2 targetPosition = LerpByDistance(originalPosition, mousePosition, forceShoot);
-            Debug.Log(" Target Position : x "+targetPosition.x+" y : "+targetPosition.y);
-            objectSmash.transform.position = Vector3.SmoothDamp(originalPosition, targetPosition,ref velocityRef,.05f);
-
+            Vector2 targetPosition = VectorUtils.LerpByDistance(originalPosition, mousePosition, forceShoot);
+            rObject.AddForce(targetPosition - (Vector2) transform.position, ForceMode2D.Impulse);
         }
     }
 }

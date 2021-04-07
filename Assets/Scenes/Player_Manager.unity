@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 500
-  jumpForce: 5
+  jumpForce: 6
   maxJumps: 2
   rigidbody2D: {fileID: 259747896}
 --- !u!4 &259747894
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 8134903333571388221, guid: 810f2d2226c66b447b6ee47c99d68161, type: 3}
   lerp: 2
-  forceShoot: 20
+  forceShoot: 750
 --- !u!114 &259747902
 MonoBehaviour:
   m_ObjectHideFlags: 0
