@@ -128,6 +128,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/Player.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/action/PlayerMovement.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/component/StaminaBar.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/action/IBreakComponentAction.cs">
           <value>
             <set />
@@ -139,6 +154,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/minor/State_Minor.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/minor/action/MinorDash.cs">
           <value>
             <set />
           </value>

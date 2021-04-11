@@ -11,18 +11,14 @@ namespace playerElement.minor.action
         public float jumpForce;
 
         public int maxJumps = 3;
-        private int _jumps;
-
-        public new Rigidbody2D rigidbody2D;
-        private Vector3 _velocity = Vector3.zero;
-
-
+        
         private void Update()
         {
-            if (_jumps != maxJumps)
+            Minor minor = GetComponent<Minor>();
+
+            if (minor.stateMinor.RemainingJump != maxJumps)
             {
-                Minor minor = GetComponent<Minor>();
-                if (Input.GetMouseButton(1) && !minor.StateMinor.isLaunchable)
+                if (Input.GetMouseButton(1) && !minor.stateMinor.IsLaunchable)
                 {
                     minor.GetComponent<Rigidbody2D>().isKinematic = true;
                     minor.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -35,45 +31,29 @@ namespace playerElement.minor.action
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
             {
-                JumpMove();
+                JumpMove(minor);
             }
         }
 
         private void FixedUpdate()
         {
             float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-
-            MovePlayer(horizontalMovement);
-        }
-
-
-        private void MovePlayer(float horizontalMovement)
-        {
+            
             Minor minor = GetComponent<Minor>();
-            if (Input.GetMouseButton(1))
-            {
-                minor.GetComponent<Rigidbody2D>().isKinematic = true;
-                minor.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else
-            {
-                minor.GetComponent<Rigidbody2D>().isKinematic = false;
-                var velocity = rigidbody2D.velocity;
-                Vector3 targetVelocity = new Vector2(horizontalMovement, velocity.y);
-                rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, .05f);
-            }
+            MovePlayer(minor,horizontalMovement);
         }
 
-
-        private void JumpMove()
+        private void JumpMove(Minor minor)
         {
-            if (_jumps > 0)
+            if (minor == null) {throw new BussinesException("Minor is null");}
+            
+            if (minor.stateMinor.RemainingJump > 0)
             {
                 rigidbody2D.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                _jumps = _jumps - 1;
+                minor.stateMinor.RemainingJump = minor.stateMinor.RemainingJump - 1;
             }
 
-            if (_jumps == 0)
+            if (minor.stateMinor.RemainingJump == 0)
             {
                 return;
             }
@@ -83,7 +63,8 @@ namespace playerElement.minor.action
         {
             if (collider.gameObject.CompareTag("Ground"))
             {
-                _jumps = maxJumps;
+                Minor minor = GetComponent<Minor>();
+                minor.stateMinor.RemainingJump = maxJumps;
             }
         }
     }

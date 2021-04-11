@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace playerElement.util
 {
@@ -13,5 +14,14 @@ namespace playerElement.util
             Vector2 p = force + playerPosition;
             return p;
         }
+        public static Vector2 GetGroundPosition(Vector2 objectivePosition)
+        {
+            var down = new Vector2(0, Math.Abs(objectivePosition.y * 100) * -1);
+            Debug.DrawRay(objectivePosition, down, Color.red);
+            var hit = Physics2D.Raycast(objectivePosition, down);
+
+            return hit.point;
+        }
     }
+    
 }

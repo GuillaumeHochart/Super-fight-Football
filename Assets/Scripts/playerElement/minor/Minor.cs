@@ -12,12 +12,9 @@ namespace playerElement.minor
 
         public MinorDisposeObject minorDisposeObject;
 
-        public State_Minor StateMinor { get; set; }
+        public State_Minor stateMinor = new State_Minor();
 
-        public Minor()
-        {
-            StateMinor = new State_Minor();
-        }
+        public Minor(){}
 
         public override BreakComponent BreakComponent()
         {
@@ -28,6 +25,7 @@ namespace playerElement.minor
         {
             return minorMovement;
         }
+        
 
     }
 }

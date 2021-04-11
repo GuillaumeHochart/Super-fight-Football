@@ -17,7 +17,7 @@ namespace playerElement.minor.action
         {
             Minor minor = GetComponent<Minor>();
 
-            return Input.GetMouseButtonDown(0) && minor.StateMinor.IsDisposeObject;
+            return Input.GetMouseButtonDown(0) && minor.stateMinor.IsDisposeObject;
         }
     }
 }

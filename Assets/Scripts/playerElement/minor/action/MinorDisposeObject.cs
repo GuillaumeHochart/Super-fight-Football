@@ -12,13 +12,14 @@ namespace playerElement.minor.action
         private bool _isInstantiate = false;
         private GameObject _newInstantiate = null;
 
+        /**gameObject**/
         public GameObject square;
 
+        /**input variable**/
         public float lerp = 2;
-
         public int forceShoot = 250;
-
         public int forceInvokRock = 10;
+        public int costOfAction = 5;
         
         private void Update()
         {
@@ -26,37 +27,28 @@ namespace playerElement.minor.action
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             var objectivePosition = VectorUtils.LerpByDistance(position, mouse, lerp);
-            Debug.Log("LERP"+objectivePosition);
 
-            InstanceKeyDown(GetGroundPosition(objectivePosition), mouse);
-            TransformGameObjectPosition(objectivePosition);
+            Minor minor = GetComponent<Minor>();
+
+            if (minor == null) throw new BussinesException("minor is null");
+                
+            InstantiateBlock(minor,VectorUtils.GetGroundPosition(objectivePosition), mouse);
+            TransformBlockPosition(minor,objectivePosition);
             UpdateMinorState();
         }
 
-        private void TransformGameObjectPosition(Vector2 objectivePosition)
+        private void TransformBlockPosition([NotNull]Minor minor,Vector2 objectivePosition)
         {
-            Minor minor = GetComponent<Minor>();
 
-            if (_isInstantiate)
-            {
-                Debug.Log("object"+_newInstantiate.transform.position);
-                Debug.Log("objective"+objectivePosition);
-
-            }
-            
             if (!Input.GetMouseButton(1)) return;
 
             ChangeStateMinor(false);
             if (_newInstantiate == null) return;
+            
+            if (_newInstantiate.transform.position.y > objectivePosition.y) minor.stateMinor.IsLaunchable = true;
+ 
 
-            Vector2 vectorRef = Vector2.zero;
-
-            if (_newInstantiate.transform.position.y > objectivePosition.y)
-            {
-                minor.StateMinor.isLaunchable = true;
-            }
-
-            if (!minor.StateMinor.isLaunchable)
+            if (!minor.stateMinor.IsLaunchable)
             {
                 _newInstantiate.transform.position =
                     new Vector2(_newInstantiate.transform.position.x,
@@ -67,16 +59,7 @@ namespace playerElement.minor.action
                 _newInstantiate.transform.position = objectivePosition;
             }
         }
-
-        private Vector2 GetGroundPosition(Vector2 objectivePosition)
-        {
-            var down = new Vector2(0, Math.Abs(objectivePosition.y * 100) * -1);
-            Debug.DrawRay(objectivePosition, down, Color.red);
-            var hit = Physics2D.Raycast(objectivePosition, down);
-
-            return hit.point;
-        }
-
+        
         private void UpdateMinorState()
         {
             if (Input.GetMouseButtonUp(1))
@@ -85,28 +68,27 @@ namespace playerElement.minor.action
             }
         }
 
-        private void InstanceKeyDown(Vector3 newPosition, Vector3 mousePosition)
+        private void InstantiateBlock([NotNull]Minor minor,Vector3 newPosition, Vector3 mousePosition)
         {
             if (mousePosition == null) throw new BussinesException("mouse position is null");
 
             if (Input.GetMouseButtonDown(1) && !_isInstantiate)
             {
-                Minor minor = GetComponent<Minor>();
                 square.GetComponent<BoxCollider2D>().isTrigger = true;
                 square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
                 _newInstantiate = Instantiate(square, new Vector2(newPosition.x,newPosition.y -2), Quaternion.identity);
                 _isInstantiate = true;
-                minor.StateMinor.isLaunchable = false;
+                minor.stateMinor.IsLaunchable = false;
             }
             else if (Input.GetMouseButtonUp(1) && _isInstantiate)
             {
-                Minor minor = GetComponent<Minor>();
                 Destroy(_newInstantiate);
                 _isInstantiate = false;
-                minor.StateMinor.isLaunchable = false;
+                minor.stateMinor.IsLaunchable = false;
             }
             else if (Input.GetMouseButtonUp(0) && _isInstantiate == true)
             {
+                if (!minor.CheckPossibleAction(costOfAction)) return;
                 Destroy(_newInstantiate);
                 square.GetComponent<BoxCollider2D>().isTrigger = false;
                 square.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -122,7 +104,7 @@ namespace playerElement.minor.action
         {
             Minor minor = GetComponent<Minor>();
 
-            minor.StateMinor.IsDisposeObject = state;
+            minor.stateMinor.IsDisposeObject = state;
         }
 
         private void LaunchObject(GameObject objectSmash, [NotNull] Vector3 mousePosition)
