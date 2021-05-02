@@ -1,8 +1,9 @@
+using Mirror;
 using UnityEngine;
 
 namespace playerElement.minor.singleton
 {
-    public class MinorManager : MonoBehaviour
+    public class MinorManager : NetworkBehaviour
     {
         public Minor minor;
 

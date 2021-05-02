@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace playerElement.abstractPlayer.component
 {
-    public class StaminaBar : MonoBehaviour
+    public class StaminaBar : NetworkBehaviour
     {
         public Slider slider;
 

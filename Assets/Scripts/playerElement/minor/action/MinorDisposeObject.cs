@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using exception;
 using JetBrains.Annotations;
+using Mirror;
 using playerElement.util;
 using UnityEngine;
 
@@ -23,18 +24,21 @@ namespace playerElement.minor.action
         
         private void Update()
         {
-            Vector2 position = transform.position;
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            var objectivePosition = VectorUtils.LerpByDistance(position, mouse, lerp);
-
             Minor minor = GetComponent<Minor>();
 
-            if (minor == null) throw new BussinesException("minor is null");
-                
-            InstantiateBlock(minor,VectorUtils.GetGroundPosition(objectivePosition), mouse);
-            TransformBlockPosition(minor,objectivePosition);
-            UpdateMinorState();
+            if (minor.isLocalPlayer)
+            {
+                Vector2 position = transform.position;
+                Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                var objectivePosition = VectorUtils.LerpByDistance(position, mouse, lerp);
+
+                if (minor == null) throw new BussinesException("minor is null");
+
+                InstantiateBlock(minor, VectorUtils.GetGroundPosition(objectivePosition), mouse);
+                TransformBlockPosition(minor, objectivePosition);
+                UpdateMinorState();
+            }
         }
 
         private void TransformBlockPosition([NotNull]Minor minor,Vector2 objectivePosition)

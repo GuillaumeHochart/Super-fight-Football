@@ -1,4 +1,5 @@
 ﻿using exception;
+using Mirror;
 using UnityEngine;
 
 namespace playerElement.minor.action
@@ -11,18 +12,20 @@ namespace playerElement.minor.action
         
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            Minor minor = GetComponent<Minor>();
+            if (minor.isLocalPlayer)
             {
-                Debug.Log("Dash action");
-                Minor minor = GetComponent<Minor>();
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    Debug.Log("Dash action");
 
-                Vector2 minorPosition = minor.transform.position;
-                
-                if(!minor.CheckPossibleAction(costOfAction)) return;
-                ChangeMinorPosition(minor);
-                AddBlockToPosition(minorPosition);
+                    Vector2 minorPosition = minor.transform.position;
+
+                    if (!minor.CheckPossibleAction(costOfAction)) return;
+                    ChangeMinorPosition(minor);
+                    AddBlockToPosition(minorPosition);
+                }
             }
-            
         }
 
         private void ChangeMinorPosition(Minor minor)

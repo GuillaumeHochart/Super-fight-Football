@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40072a0244806f848b211375dcbdfe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   life: 1
 --- !u!1839735485 &5303040166102791680
 Tilemap:

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace Element
 {
-    public class BreakableElement : MonoBehaviour
+    public class BreakableElement : NetworkBehaviour
     {
         public int life = 1;
 

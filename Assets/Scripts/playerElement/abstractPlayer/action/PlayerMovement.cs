@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using exception;
+using Mirror;
 using UnityEngine;
 
 namespace playerElement
@@ -9,11 +10,14 @@ namespace playerElement
     {
         public new Rigidbody2D rigidbody2D;
 
-        private Vector3 _velocity = Vector3.zero;
+        private Vector2 _velocity = Vector2.zero;
 
-        protected void MovePlayer(Player player,float horizontalMovement)
+        protected void MovePlayer(Player player, float horizontalMovement)
         {
-            if(player == null){throw new BussinesException("player is null");}
+            if (player == null)
+            {
+                throw new BussinesException("player is null");
+            }
             
             if (Input.GetMouseButton(1))
             {
@@ -24,10 +28,9 @@ namespace playerElement
             {
                 player.GetComponent<Rigidbody2D>().isKinematic = false;
                 var velocity = rigidbody2D.velocity;
-                Vector3 targetVelocity = new Vector2(horizontalMovement, velocity.y);
-                rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, .05f);
+                Vector2 targetVelocity = new Vector2(horizontalMovement, velocity.y);
+                rigidbody2D.velocity = Vector2.SmoothDamp(velocity, targetVelocity, ref _velocity, .05f);
             }
         }
     }
 }
-

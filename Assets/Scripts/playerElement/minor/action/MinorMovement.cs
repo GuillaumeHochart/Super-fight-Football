@@ -16,31 +16,38 @@ namespace playerElement.minor.action
         {
             Minor minor = GetComponent<Minor>();
 
-            if (minor.stateMinor.RemainingJump != maxJumps)
+            if (minor.isLocalPlayer)
             {
-                if (Input.GetMouseButton(1) && !minor.stateMinor.IsLaunchable)
+                if (minor.stateMinor.RemainingJump != maxJumps)
                 {
-                    minor.GetComponent<Rigidbody2D>().isKinematic = true;
-                    minor.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    if (Input.GetMouseButton(1) && !minor.stateMinor.IsLaunchable)
+                    {
+                        minor.GetComponent<Rigidbody2D>().isKinematic = true;
+                        minor.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    }
+                    else
+                    {
+                        minor.GetComponent<Rigidbody2D>().isKinematic = false;
+                    }
                 }
-                else
-                {
-                    minor.GetComponent<Rigidbody2D>().isKinematic = false;
-                }
-            }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
-            {
-                JumpMove(minor);
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+                {
+                    JumpMove(minor);
+                }
             }
         }
 
         private void FixedUpdate()
         {
-            float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-            
             Minor minor = GetComponent<Minor>();
-            MovePlayer(minor,horizontalMovement);
+
+            if (minor.isLocalPlayer)
+            {
+                float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+
+                MovePlayer(minor, horizontalMovement);
+            }
         }
 
         private void JumpMove(Minor minor)
@@ -61,10 +68,14 @@ namespace playerElement.minor.action
 
         private void OnCollisionEnter2D(Collision2D collider)
         {
-            if (collider.gameObject.CompareTag("Ground"))
+            Minor minor = GetComponent<Minor>();
+
+            if (minor.isLocalPlayer)
             {
-                Minor minor = GetComponent<Minor>();
-                minor.stateMinor.RemainingJump = maxJumps;
+                if (collider.gameObject.CompareTag("Ground"))
+                {
+                    minor.stateMinor.RemainingJump = maxJumps;
+                }
             }
         }
     }

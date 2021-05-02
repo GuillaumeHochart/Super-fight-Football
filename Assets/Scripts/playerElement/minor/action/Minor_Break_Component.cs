@@ -6,18 +6,26 @@ namespace playerElement.minor.action
     {
         private void Update()
         {
-            ChangeState(CheckUpdateState());
+            Minor minor = GetComponent<Minor>();
+            if (minor.isLocalPlayer)
+            {
+                ChangeState(CheckUpdateState());
+            }
         }
         private void OnCollisionStay2D(Collision2D collision)
         {
-            CheckAndUpdateStateComponent(collision);
+            Minor minor = GetComponent<Minor>();
+            if (minor.isLocalPlayer)
+            {
+                CheckAndUpdateStateComponent(collision);
+            }
         }
 
         public override bool CheckUpdateState()
         {
             Minor minor = GetComponent<Minor>();
 
-            return Input.GetMouseButtonDown(0) && minor.stateMinor.IsDisposeObject;
+            return minor.isLocalPlayer && Input.GetMouseButtonDown(0) && minor.stateMinor.IsDisposeObject;
         }
     }
 }

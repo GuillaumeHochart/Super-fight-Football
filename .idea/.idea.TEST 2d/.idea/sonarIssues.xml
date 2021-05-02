@@ -88,6 +88,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/network/PlayerNetworkManager.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/player/minor/Minor.cs">
           <value>
             <set />
@@ -129,6 +134,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/Player.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/PlayerManager.cs">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/Assets/Scripts/playerElement/abstractPlayer/action/BreakComponent.cs">
           <value>
             <set />
           </value>

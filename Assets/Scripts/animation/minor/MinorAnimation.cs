@@ -1,11 +1,12 @@
 ﻿using System;
 using exception;
+using Mirror;
 using playerElement.util;
 using UnityEngine;
 
 namespace animation.minor
 {
-    public class MinorAnimation : MonoBehaviour
+    public class MinorAnimation : NetworkBehaviour
     {
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int PlayerIsLower = Animator.StringToHash("PlayerIsLower");

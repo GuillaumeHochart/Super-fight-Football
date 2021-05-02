@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Element;
+using Mirror;
 using playerElement.abstractPlayer.component;
 using UnityEngine;
 
@@ -23,11 +24,28 @@ namespace playerElement
         private const float StaminaIncreasePerFrame = 1.0f;
         public float staminaTimeToRegen = 3.0f;
 
+        public GameObject playerCamera;
 
-        protected Player()
+        protected Player(){}
+        public override void OnStartLocalPlayer()
         {
-            currentStamina = stamina;
-            staminaBar.SetMaxStamina(stamina);
+        }
+        private void Start()
+        {
+ 
+            if (isLocalPlayer)
+            {
+                playerCamera.SetActive(true);
+                currentStamina = stamina;
+                if (staminaBar != null)
+                {
+                    staminaBar.SetMaxStamina(stamina);
+                }
+            }
+            else
+            {
+                playerCamera.SetActive(false);
+            }
         }
 
         private void Update()
@@ -41,7 +59,7 @@ namespace playerElement
             else
                 _staminaRegenTimer += Time.deltaTime;
 
-            Debug.Log("CurrentStamina :"+currentStamina);
+            //Debug.Log("CurrentStamina :"+currentStamina);
         }
 
         private bool CheckStamina(int costOfAction)

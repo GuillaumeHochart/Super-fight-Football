@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace playerElement
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : NetworkBehaviour
     {
         public PlayerMovement playerMovement;
 
